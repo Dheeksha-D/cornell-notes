@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cornell Notes — App Brewery Bootcamp</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="app">
+
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="logo">📓 Cornell Notes</h1>
+        <p class="subtitle">The Complete Full-Stack Web Dev Bootcamp</p>
+      </div>
+      <div class="topbar-right">
+        <button class="btn" id="btn-list">All notes</button>
+        <button class="btn primary" id="btn-new">+ New note</button>
+      </div>
+    </header>
+
+    <!-- Progress bar -->
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span id="progress-text">0 of 45 sections noted</span>
+        <span id="progress-pct">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- Notes list view -->
+    <section id="view-list">
+      <div class="filter-bar">
+        <input type="text" id="search" placeholder="Search notes..." />
+        <select id="filter-section">
+          <option value="">All sections</option>
+        </select>
+      </div>
+      <div id="notes-list" class="notes-list"></div>
+      <div id="empty-state" class="empty" style="display:none">
+        <p>No notes yet.</p>
+        <p>Hit <strong>+ New note</strong> to get started.</p>
+      </div>
+    </section>
+
+    <!-- Editor view -->
+    <section id="view-editor" style="display:none">
+      <div class="note-meta">
+        <div class="meta-field">
+          <label for="topic">Lecture / Topic</label>
+          <input type="text" id="topic" placeholder="e.g. The CSS Box Model" />
+        </div>
+        <div class="meta-field">
+          <label for="section-select">Section</label>
+          <select id="section-select">
+            <option value="">— pick a section —</option>
+          </select>
+        </div>
+        <div class="meta-field">
+          <label for="note-date">Date</label>
+          <input type="text" id="note-date" />
+        </div>
+      </div>
+
+      <!-- Cornell grid -->
+      <div class="cornell-grid">
+        <div class="cues-col">
+          <div class="section-header">Cues &amp; keywords</div>
+          <p class="section-hint">Questions, terms, key ideas — use these to self-test later</p>
+          <textarea id="cues" placeholder="• What is the box model?&#10;• Difference: margin vs padding?&#10;• What does display:flex do?"></textarea>
+        </div>
+        <div class="notes-col">
+          <div class="section-header">Notes</div>
+          <p class="section-hint">Main content — use your own words, abbreviate freely</p>
+          <textarea id="notes" placeholder="Every HTML element is a box:&#10;  content → padding → border → margin&#10;&#10;box-sizing: border-box → width includes padding+border&#10;&#10;Flexbox: parent = flex container, children = flex items"></textarea>
+        </div>
+        <div class="summary-row">
+          <div class="section-header">Summary</div>
+          <textarea id="summary" placeholder="Summarise the whole lecture in 2–3 sentences — write this after watching"></textarea>
+        </div>
+      </div>
+
+      <div class="editor-actions">
+        <button class="btn danger" id="btn-delete" style="display:none">Delete note</button>
+        <div style="display:flex; gap:8px">
+          <button class="btn" id="btn-cancel">Cancel</button>
+          <button class="btn primary" id="btn-save">Save note</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

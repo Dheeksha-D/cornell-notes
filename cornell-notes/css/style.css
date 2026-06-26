@@ -1,0 +1,448 @@
+/* =============================================
+   Cornell Notes — style.css
+   Structure: Reset → Variables → Layout →
+   Components → Cornell grid → Responsive
+   ============================================= */
+
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Variables ── */
+:root {
+  --color-surface:      rgba(255,255,255,0.07);
+  --color-surface-alt:  rgba(255,255,255,0.04);
+  --color-surface-card: rgba(255,255,255,0.06);
+  --color-border:       rgba(255,255,255,0.10);
+  --color-border-strong:rgba(255,255,255,0.18);
+  --color-text:         #f0efe8;
+  --color-text-muted:   rgba(240,239,232,0.50);
+  --color-accent:       #a78bfa;
+  --color-accent-bg:    rgba(167,139,250,0.15);
+  --color-danger:       #f87171;
+  --color-danger-bg:    rgba(248,113,113,0.12);
+
+  --radius-sm: 6px;
+  --radius:    10px;
+  --radius-lg: 14px;
+
+  --font:      system-ui, -apple-system, sans-serif;
+  --font-mono: 'Courier New', monospace;
+}
+
+/* ── Base ── */
+html, body {
+  min-height: 100vh;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--color-text);
+  font-size: 16px;
+  line-height: 1.6;
+  background: #07070e;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ── Animated aurora background ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 15% 10%,  rgba(120, 50, 230, 0.40) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 70% at 82% 18%,  rgba(20, 190, 210, 0.30) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 50% 85%,  rgba(210, 70, 160, 0.28) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 60% at 88% 72%,  rgba(50, 110, 255, 0.24) 0%, transparent 55%),
+    radial-gradient(ellipse 90% 40% at 8%  62%,  rgba(10, 210, 130, 0.16) 0%, transparent 55%),
+    #07070e;
+  animation: aurora 16s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes aurora {
+  0%   { filter: hue-rotate(0deg)   brightness(1);    }
+  30%  { filter: hue-rotate(28deg)  brightness(1.09); }
+  65%  { filter: hue-rotate(-22deg) brightness(0.94); }
+  100% { filter: hue-rotate(45deg)  brightness(1.06); }
+}
+
+/* ── App shell ── */
+.app {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Top bar ── */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  gap: 1rem;
+}
+
+.topbar-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.topbar-right {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ── Buttons ── */
+.btn {
+  font-family: var(--font);
+  font-size: 13px;
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-strong);
+  background: rgba(255,255,255,0.06);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  backdrop-filter: blur(8px);
+}
+
+.btn:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+.btn.primary {
+  background: var(--color-accent);
+  color: #0d0a1e;
+  border-color: transparent;
+  font-weight: 600;
+}
+
+.btn.primary:hover {
+  opacity: 0.88;
+}
+
+.btn.danger {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+  background: transparent;
+}
+
+.btn.danger:hover {
+  background: var(--color-danger-bg);
+}
+
+/* ── Progress bar ── */
+.progress-wrap {
+  margin-bottom: 1.5rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  backdrop-filter: blur(12px);
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.progress-track {
+  height: 5px;
+  background: rgba(255,255,255,0.10);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #a78bfa, #38bdf8, #a78bfa);
+  background-size: 200% 100%;
+  border-radius: 99px;
+  width: 0%;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* ── Filter bar ── */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.filter-bar input,
+.filter-bar select {
+  font-family: var(--font);
+  font-size: 14px;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.06);
+  color: var(--color-text);
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+  backdrop-filter: blur(8px);
+}
+
+.filter-bar input { flex: 1; }
+.filter-bar select { max-width: 240px; }
+
+.filter-bar input::placeholder { color: var(--color-text-muted); }
+
+.filter-bar input:focus,
+.filter-bar select:focus {
+  border-color: var(--color-accent);
+  background: rgba(255,255,255,0.09);
+}
+
+.filter-bar select option { background: #1a1030; color: #f0efe8; }
+
+/* ── Notes list ── */
+.notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.note-card {
+  background: rgba(255,255,255,0.055);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  transition: border-color 0.15s, background 0.15s;
+  backdrop-filter: blur(10px);
+}
+
+.note-card:hover {
+  border-color: var(--color-accent);
+  background: rgba(167,139,250,0.08);
+}
+
+.note-card-body { flex: 1; min-width: 0; }
+
+.note-card-title {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 3px;
+  color: #fff;
+}
+
+.note-card-meta {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.note-card-preview {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-top: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 99px;
+  background: var(--color-accent-bg);
+  color: var(--color-accent);
+  border: 1px solid rgba(167,139,250,0.25);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.empty {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--color-text-muted);
+  font-size: 15px;
+  line-height: 2;
+}
+
+/* ── Note meta (editor) ── */
+.note-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.meta-field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+
+.meta-field input,
+.meta-field select {
+  width: 100%;
+  font-family: var(--font);
+  font-size: 14px;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.06);
+  color: var(--color-text);
+  outline: none;
+  transition: border-color 0.15s;
+  backdrop-filter: blur(8px);
+}
+
+.meta-field input::placeholder { color: var(--color-text-muted); }
+.meta-field select option { background: #1a1030; }
+
+.meta-field input:focus,
+.meta-field select:focus {
+  border-color: var(--color-accent);
+}
+
+/* ── Cornell grid ── */
+.cornell-grid {
+  display: grid;
+  grid-template-columns: 30% 1fr;
+  grid-template-rows: 1fr auto;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(16px);
+}
+
+.section-header {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+  padding: 10px 14px 0;
+}
+
+.section-hint {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  padding: 2px 14px 6px;
+  line-height: 1.4;
+}
+
+.cues-col {
+  grid-column: 1;
+  grid-row: 1;
+  border-right: 1px solid var(--color-border-strong);
+  background: rgba(167,139,250,0.04);
+}
+
+.notes-col {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.summary-row {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  border-top: 1px solid var(--color-border-strong);
+  background: rgba(56,189,248,0.04);
+}
+
+.cornell-grid textarea {
+  display: block;
+  width: 100%;
+  min-height: 280px;
+  border: none;
+  background: transparent;
+  resize: vertical;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--color-text);
+  padding: 8px 14px 14px;
+  outline: none;
+}
+
+.cornell-grid textarea::placeholder { color: var(--color-text-muted); }
+
+.summary-row textarea {
+  min-height: 90px;
+  font-family: var(--font);
+}
+
+/* ── Editor actions ── */
+.editor-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .note-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .cornell-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  .cues-col {
+    grid-column: 1;
+    grid-row: 1;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border-strong);
+  }
+
+  .notes-col {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .summary-row {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .topbar { flex-wrap: wrap; }
+  .filter-bar { flex-direction: column; }
+  .filter-bar select { max-width: 100%; }
+}
